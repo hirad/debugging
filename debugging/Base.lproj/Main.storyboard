@@ -89,7 +89,8 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="doSomethingExciting:" destination="oPS-iA-sje" eventType="touchUpInside" id="YTy-T4-XeF"/>
+                                    <action selector="doSomethingExciting:" destination="oPS-iA-sje" eventType="touchUpInside" id="WNp-M0-h7N"/>
+                                    <action selector="doSomethingVeryCool:" destination="oPS-iA-sje" eventType="touchUpInside" id="UUi-fK-cEA"/>
                                 </connections>
                             </button>
                         </subviews>

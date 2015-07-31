@@ -11,18 +11,29 @@
 
 @interface InternalObserver : NSObject
 @property (nonatomic, weak) UIViewController* parent;
+@property (nonatomic, assign) NSInteger alertCount;
 -(void)showAlert:(NSNotification*)notification;
 @end
 
 @implementation InternalObserver
 
+-(instancetype)init {
+    if (self = [super init]) {
+        _alertCount = 0;
+    }
+    return self;
+}
+
+-(void)dealloc {
+    NSLog(@"Old observer dealloc'd");
+}
+
 -(void)showAlert:(NSNotification*)notification {
-    
-    NSString* msg = [NSString stringWithFormat:@"Hello World!"];
+    _alertCount++;
+    NSString* msg = [NSString stringWithFormat:@"Hello World %d !", (int)_alertCount];
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Alert" message:msg preferredStyle:UIAlertControllerStyleAlert];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"Coolsauce!" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [alert dismissViewControllerAnimated:YES completion:nil];
     }]];
     [self.parent presentViewController:alert animated:YES completion:nil];
 }
@@ -45,9 +56,9 @@ NSString* const ShowUserAlertNotification = @"show_user_alert_notification";
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-//    [self initializeObserver];
+    [self initializeObserver];
     
-    NSTimer* __unused timer = [NSTimer scheduledTimerWithTimeInterval:8
+    NSTimer* __unused timer = [NSTimer scheduledTimerWithTimeInterval:4
                                                                target:self
                                                              selector:@selector(emitNotification:)
                                                              userInfo:nil
@@ -55,8 +66,6 @@ NSString* const ShowUserAlertNotification = @"show_user_alert_notification";
 }
 
 -(void)initializeObserver {
-    NSLog(@"Creating a new observer object! WOOT!");
-    
     self.observer = [InternalObserver new];
     self.observer.parent = self;
     
@@ -78,9 +87,8 @@ NSString* const ShowUserAlertNotification = @"show_user_alert_notification";
 }
 
 -(IBAction)shakeThingsUp:(id)sender {
-    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    Example1Modal* modal = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([Example1Modal class])];
-    [self presentViewController:modal animated:YES completion:nil];
+    NSLog(@"Creating a new observer... WOOT!");
+    [self initializeObserver];
 }
 
 @end

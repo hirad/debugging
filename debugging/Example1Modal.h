@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// Ignore this class
 @interface Example1Modal : UIViewController
 
 @end
